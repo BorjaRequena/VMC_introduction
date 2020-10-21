@@ -530,10 +530,12 @@ where $\rho=\frac{|\Psi|^2}{\int|\Psi|^2}$ is the probability density and $E_L=\
 <p>Let us define the variational derivatives $O$ with respect to the $k$-th parameter of our variational ansatz as the log-derivative of the wave function 
 $$O_k(x) = \frac{\partial}{\partial\theta_k}\log\left(\Psi_\theta(x)\right)=\frac{1}{\Psi_\theta(x)}\frac{\partial\Psi_\theta(x)}{\partial\theta_k}$$ 
 With this, we can define $S$ as the covariance matrix of the variational derivatives and compute $F$ in terms of the previously introduced local energy $E_L(x)$:
-$$\begin{align} 
-S_{kk'}&amp;=\langle O_k^*O_{k'}\rangle-\langle O_k^*\rangle\langle O_{k'}\rangle \\
-F_k&amp;= \langle E_LO_k^*\rangle - \langle E_L\rangle\langle O_k^*\rangle
-\end{align}$$
+{% raw %}
+$$ S_{kk'}=\langle O_k^*O_{k'}\rangle-\langle O_k^*\rangle\langle O_{k'}\rangle$$
+{% endraw %}
+{% raw %}
+$$ F_k= \langle E_LO_k^*\rangle - \langle E_L\rangle\langle O_k^*\rangle$$
+{% endraw %}
 As an extra step, there can be introduced a regularization term to increase the learning stability by rescaling the diagonal terms of $S$ such that $S_{kk} = S_{kk}(1+\lambda)$.</p>
 
 </div>
@@ -542,11 +544,15 @@ As an extra step, there can be introduced a regularization term to increase the 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Example---Monte-Carlo-optimization">Example - Monte Carlo optimization<a class="anchor-link" href="#Example---Monte-Carlo-optimization"> </a></h2><p>Let us put everything together to find the ground state energy of the Ising Hamiltonian used in the previous examples. For the case of an RBM ansatz, the variational derivatives of the parameters can be obtained pretty easily, being: 
-$$\begin{align}
-O_{b_j}(s) &amp;= \frac{\partial}{\partial b_j}\log\left(\Psi(s)\right) = s_j \\
-O_{c_i}(s) &amp;= \frac{\partial}{\partial c_i}\log\left(\Psi(s)\right) = \tanh\left[\theta_i(s)\right] \\
-O_{W_{ij}}(s) &amp;= \frac{\partial}{\partial W_{ij}}\log\left(\Psi(s)\right) = s_j\tanh\left[\theta_i(s)\right]
-\end{align}$$
+{% raw %}
+$$O_{b_j}(s) = \frac{\partial}{\partial b_j}\log\left(\Psi(s)\right) = s_j $$
+{% endraw %}
+{% raw %}
+$$O_{c_i}(s) = \frac{\partial}{\partial c_i}\log\left(\Psi(s)\right) = \tanh\left[\theta_i(s)\right]$$
+{% endraw %}
+{% raw %}
+$$O_{W_{ij}}(s) = \frac{\partial}{\partial W_{ij}}\log\left(\Psi(s)\right) = s_j\tanh\left[\theta_i(s)\right]$$
+{% endraw %}
 Where $\theta_i(s)$ is the argument of the hyperbolic cosine $\theta_i(s) = c_i + \sum_j W_{ij}s_j$.</p>
 <p>We have seen that the autocorrelation time was $\tau\sim 5$. In order to economize the simulation, rather than computing bin averages of $\sim100-200$ samples, we will draw samples every few steps larger than $\tau$ so that subsequent measurements are already uncorrelated.</p>
 <p>We define our custom functions to compute the variational derivatives and covariances, as well as a function that will sample a bunch of states at once.</p>
