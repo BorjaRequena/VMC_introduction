@@ -13,6 +13,6 @@ entries:
       title: Introduction to Quantum Monte Carlo methods
       url: /QMC_introduction
     output: web
-    title: QMC_introduction
+    title: QMC-introduction
   output: web
   title: Sidebar
