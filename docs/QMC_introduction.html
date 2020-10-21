@@ -5,8 +5,8 @@ title: Introduction to Quantum Monte Carlo methods
 keywords: fastai
 sidebar: home_sidebar
 
-
-
+summary: "Monte Carlo methods are extremely powerful tools to deal with problems that have vast phase spaces, such as quantum many-body systems. Here, we focus on Quantum Monte Carlo (QMC) methods using a specific technique, Variational Quantum Monte Carlo (VQMC). VQMC is what we find to be the most intuitive and simple, while already allowing us to dive into the depths of QMC methods, furthermore, we will implement it with Restricted Boltzmann Machines."
+description: "Monte Carlo methods are extremely powerful tools to deal with problems that have vast phase spaces, such as quantum many-body systems. Here, we focus on Quantum Monte Carlo (QMC) methods using a specific technique, Variational Quantum Monte Carlo (VQMC). VQMC is what we find to be the most intuitive and simple, while already allowing us to dive into the depths of QMC methods, furthermore, we will implement it with Restricted Boltzmann Machines."
 ---
 <!--
 
@@ -541,7 +541,7 @@ As an extra step, there can be introduced a regularization term to increase the 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Example----Monte-Carlo-optimization">Example -- Monte Carlo optimization<a class="anchor-link" href="#Example----Monte-Carlo-optimization"> </a></h2><p>Let us put everything together to find the ground state energy of the Ising Hamiltonian used in the previous examples. For the case of an RBM ansatz, the variational derivatives of the parameters can be obtained pretty easily, being: 
+<h2 id="Example---Monte-Carlo-optimization">Example - Monte Carlo optimization<a class="anchor-link" href="#Example---Monte-Carlo-optimization"> </a></h2><p>Let us put everything together to find the ground state energy of the Ising Hamiltonian used in the previous examples. For the case of an RBM ansatz, the variational derivatives of the parameters can be obtained pretty easily, being: 
 $$\begin{align}
 O_{b_j}(s) &amp;= \frac{\partial}{\partial b_j}\log\left(\Psi(s)\right) = s_j \\
 O_{c_i}(s) &amp;= \frac{\partial}{\partial c_i}\log\left(\Psi(s)\right) = \tanh\left[\theta_i(s)\right] \\
