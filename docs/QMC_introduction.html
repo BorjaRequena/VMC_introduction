@@ -76,7 +76,7 @@ where $\rho=\frac{|\Psi|^2}{\int|\Psi|^2}$ is the probability density and $E_L=\
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">RBM</span><span class="p">:</span>
-    <span class="s2">&quot;Super fast and cheap implementation of an RBM with complex parameters.&quot;</span>
+    <span class="s2">&quot;Super simple implementation of an RBM with complex parameters.&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_visible</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_visible</span> <span class="o">=</span> <span class="n">n_visible</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_hidden</span> <span class="o">=</span> <span class="n">n_hidden</span>
@@ -109,7 +109,7 @@ where $\rho=\frac{|\Psi|^2}{\int|\Psi|^2}$ is the probability density and $E_L=\
         <span class="n">ratios</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">v2</span><span class="p">:</span>
             <span class="n">f2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">@</span> <span class="n">v</span><span class="p">)</span>
-            <span class="n">log_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f2</span><span class="o">/</span><span class="n">f1</span><span class="p">))</span> <span class="c1"># log of ratio (numerical stability)</span>
+            <span class="n">log_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f2</span><span class="o">/</span><span class="n">f1</span><span class="p">))</span> <span class="c1"># log of ratio for numerical stability</span>
             <span class="n">ratios</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_diff</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">ratios</span> 
 </pre></div>
@@ -291,9 +291,9 @@ where $\rho=\frac{|\Psi|^2}{\int|\Psi|^2}$ is the probability density and $E_L=\
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Statistical-analysis-and-autocorrelation-time">Statistical analysis and autocorrelation time<a class="anchor-link" href="#Statistical-analysis-and-autocorrelation-time"> </a></h2><p>Because of the nature of Markov chains, measurements are always correlated. Given that new states are obtained by modifying the previous ones, consecutive states can be highly correlated. Therefore, it is important that we determine the autocorrelation time $\tau$ after which we can consider two samples to be uncorrelated.</p>
-<p>The statistical error is obtained via $$\epsilon = \sqrt{\frac{s_f^2}{N}}, \ s_f^2 = \frac{1}{N-1}\sum_{i=1}^N\left(f(X_i) - \langle f \rangle\right)^2.$$ These quantities, however, are well defined for uncorrelated samples. Hence, knowing the autocorrelation time $\tau$, we can compute our estimation values by measuring exclusively every $\tau$ samples.</p>
-<h3 id="Binning-analysis">Binning analysis<a class="anchor-link" href="#Binning-analysis"> </a></h3><p>Knowing the autocorrelation time is extremely important. However, finding the autocorrelation function is too costful and difficult to analyse so, in practice, we rely in the binning analysis of the time series to estimate both $\tau$ and $\epsilon$. The main idea is that averages over parts of the time-series, which are longer than the autocorrelation time, are independent of each other, thus providing the right error estimates.</p>
+<h2 id="Statistical-analysis-and-autocorrelation-time">Statistical analysis and autocorrelation time<a class="anchor-link" href="#Statistical-analysis-and-autocorrelation-time"> </a></h2><p>Because of the nature of Markov chains, measurements are always correlated to a certain degree. Given that new states are obtained by modifying the previous ones, consecutive states can be highly correlated, although the correlation fades as the number of steps between states increases. The distance at which we can consider two states to be uncorrlated in the Markov chain is the <strong>autocorrelation time</strong> $\tau$.</p>
+<p>The statistical error $\epsilon$ is obtained via $$\epsilon = \sqrt{\frac{s_f^2}{N}}, \ s_f^2 = \frac{1}{N-1}\sum_{i=1}^N\left(f(X_i) - \langle f \rangle\right)^2.$$ These quantities, however, are well defined for uncorrelated samples. Hence, knowing the autocorrelation time $\tau$, we can compute our estimation values by exclusively taking samples every $\tau$ (or $\geq\tau$) steps.</p>
+<h3 id="Binning-analysis">Binning analysis<a class="anchor-link" href="#Binning-analysis"> </a></h3><p>Knowing the autocorrelation time is extremely important. However, finding the autocorrelation function is too costful and difficult to analyse so, in practice, we rely in the binning analysis of the time series to estimate both $\tau$ and $\epsilon$. The main idea is that averages over chunks of the time-series, which are longer than the autocorrelation time, are independent of each other, thus providing the right error estimates.</p>
 <p>Provided that we do not have any prior knowledge about the autocorrelation time, we have to use blocks of increasing lengths until the error estimate converges. We cut the time series into $N_B$ blocks of fixed length $k$ for several values of $k=2^0,2^1, 2^2, \dots$ With this, we can compute the block average of the $i$-th block $$\langle f \rangle_{B_i}=\frac{1}{k}\sum_{t=1}^kf(x_{(i-1)k+t}).$$ All the blocks have a mean $$\langle f\rangle_B = \frac{1}{N_B}\sum_{i=1}^{N_B}\langle f\rangle_{B_i},$$ which, when the block length $k$ is larger than the autocorrelation time $\tau$, allows us to compute the squared statistical error $$\epsilon^2\approx\frac{s_B^2}{N_B}=\frac{1}{N_B(N_B-1)}\sum_{i=1}^{N_B}\left(\langle f\rangle_{B_i} - \langle f\rangle_B\right)^2.$$ If the blocks are independent, $\frac{s_B^2}{N_B}$ remains constant for increasing values of $k$, although for large $k$ (low $N_B\sim100$) statistical fluctuations emerge.</p>
 <p>The integrated autocorrelation time can be infered from the binning analysis results. Being  $$\tau=\frac{1}{2}\frac{\frac{s_B^2}{N_B}(k\rightarrow \infty)}{\frac{s_B^2}{N_B}(k=1)}.$$ Bear in mind that the autocorrelation time can <strong>change between quantities</strong>.</p>
 
@@ -396,7 +396,7 @@ where $\rho=\frac{|\Psi|^2}{\int|\Psi|^2}$ is the probability density and $E_L=\
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>With the binning analysis, we see that the squared error converges for a bin size of $\sim100$. For very large bin sizes, the low number of bins incurs some statistical fluctuations. Thus, the result and statistical errors are properly computed for bin sizes $64\leq k\leq1000$. We can take any of these values as valid, although the smaller the bin sizes, the lower the overall computational cost, and so we will try to keep a bin size that is well converged but not too large, e.g. between $100$ and $200$, for future calculations.</p>
+<p>With the binning analysis, we see that the squared error converges for a bin size of $\sim100$. For very large bin sizes, the low number of bins incurs some statistical fluctuations. Thus, the result and statistical errors are properly computed for bin sizes $64\leq k\leq1000$. We can take any of these values as valid, although the smaller the bin sizes, the lower the overall computational cost. Hence, for future calculations, we will try to keep a bin size that is well converged but not too large, e.g. between $100$ and $200$.</p>
 
 </div>
 </div>
@@ -434,7 +434,7 @@ where $\rho=\frac{|\Psi|^2}{\int|\Psi|^2}$ is the probability density and $E_L=\
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As shown before, we can also use this results to infer the autocorrelation time.</p>
+<p>As shown before, we can also use these results to infer the autocorrelation time.</p>
 
 </div>
 </div>
@@ -446,7 +446,7 @@ where $\rho=\frac{|\Psi|^2}{\int|\Psi|^2}$ is the probability density and $E_L=\
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tau</span> <span class="o">=</span> <span class="p">(</span><span class="n">errors</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">errors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">;</span> <span class="n">tau</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tau</span> <span class="o">=</span> <span class="p">(</span><span class="n">errors</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span><span class="o">/</span><span class="n">errors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">;</span> <span class="n">tau</span>
 </pre></div>
 
     </div>
@@ -461,7 +461,7 @@ where $\rho=\frac{|\Psi|^2}{\int|\Psi|^2}$ is the probability density and $E_L=\
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>5.204697855490824</pre>
+<pre>5.243713762799869</pre>
 </div>
 
 </div>
@@ -525,18 +525,19 @@ where $\rho=\frac{|\Psi|^2}{\int|\Psi|^2}$ is the probability density and $E_L=\
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Monte-Carlo-optimization">Monte Carlo optimization<a class="anchor-link" href="#Monte-Carlo-optimization"> </a></h2><p>Being able to reliably compute expectation values, we can use the same methods to optimize our variational ansatz according to a target function. In the previous example, we have taken a completely random wave function, which is to be the starting point of an optimization process.</p>
-<p>In QVMC, we use the <strong>stochastic reconfiguration</strong> (SR) method to optimize the parameters of the ansatz via natural gradient. Let our parametrized wavefunction be $\Psi_\theta$, with SR the parameter update rule is $\theta_{t+1}=\theta_t + \alpha S_t^{-1}F_t$, where $\alpha$ is the learning rate, $S$ is an estimation of the Fischer information matrix and $F$ is an estimation of the gradient of the cost function.</p>
-<p>Let us define the variational derivatives $O$ with respect to the $k$-th parameter of our variational ansatz as the log-derivative of the wave function 
+<h2 id="Monte-Carlo-optimization">Monte Carlo optimization<a class="anchor-link" href="#Monte-Carlo-optimization"> </a></h2><p>Now that we are able to reliably compute expectation values, we can use the same methods to optimize our variational ansatz according to a target function. In the previous examples, we have taken a completely random wave functiont, which is to be the starting point of our optimization process to find the ground state wave function.</p>
+<p>In QVMC, we use the <strong>stochastic reconfiguration</strong> (SR) method to optimize the parameters of the ansatz approximating the <a href="https://www.mitpressjournals.org/doi/abs/10.1162/089976698300017746">natural gradient</a>. Let our parametrized wavefunction be $\Psi_\theta$ with parameters $\theta$, with SR the parameter update rule is $\theta_{t+1}=\theta_t + \alpha S_t^{-1}F_t$, where $\alpha$ is the learning rate, $S$ is an estimation of the Fischer information matrix and $F$ is an estimation of the gradient of the cost function. The term $S^{-1}F$ is an estimation of the natural gradient with respect to the parameters $\theta$.</p>
+<p>Given that the ground state is the one with the lowest possible energy of the system, our cost function to optimize will be the expected energy of the system under our parametrized wave function. This way, the parameters of our ansatz will be tuned to approximate the ground state of the system as best as possible.</p>
+<p>Let us define the variational derivatives $O$ with respect to the $k$-th parameter $\theta_k$ of our variational ansatz $\Psi_\theta$ as the log-derivative of the wave function 
 $$O_k(x) = \frac{\partial}{\partial\theta_k}\log\left(\Psi_\theta(x)\right)=\frac{1}{\Psi_\theta(x)}\frac{\partial\Psi_\theta(x)}{\partial\theta_k}$$ 
-With this, we can define $S$ as the covariance matrix of the variational derivatives and compute $F$ in terms of the previously introduced local energy $E_L(x)$:
+With this, we can define $S$ as the covariance matrix of the variational derivatives $O_k$ and compute $F$ in terms of the previously introduced local energy $E_L(x)$:
 {% raw %}
 $$ S_{kk'}=\langle O_k^*O_{k'}\rangle-\langle O_k^*\rangle\langle O_{k'}\rangle$$
 {% endraw %}
 {% raw %}
 $$ F_k= \langle E_LO_k^*\rangle - \langle E_L\rangle\langle O_k^*\rangle$$
 {% endraw %}
-As an extra step, there can be introduced a regularization term to increase the learning stability by rescaling the diagonal terms of $S$ such that $S_{kk} = S_{kk}(1+\lambda)$.</p>
+As an extra step, there can be introduced a regularization term to increase stability throught the optimization by rescaling the diagonal terms of $S$ such that $S_{kk} = S_{kk}(1+\lambda)$.</p>
 
 </div>
 </div>
@@ -575,14 +576,11 @@ Where $\theta_i(s)$ is the argument of the hyperbolic cosine $\theta_i(s) = c_i 
     <span class="n">Ow</span> <span class="o">=</span> <span class="n">Oc</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">@</span> <span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">Ob</span><span class="p">,</span> <span class="n">Oc</span><span class="p">,</span> <span class="n">Ow</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span>
 
-<span class="k">def</span> <span class="nf">covariance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">covariance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
     <span class="s2">&quot;Computes the covariance between `x1` and `x2`.&quot;</span>
     <span class="n">samples</span> <span class="o">=</span> <span class="n">x1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">m1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">x2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> 
-        <span class="n">m2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">x2</span><span class="p">,</span> <span class="n">m2</span> <span class="o">=</span> <span class="n">x1</span><span class="p">,</span> <span class="n">m1</span>
+    <span class="n">m2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">x1</span> <span class="o">@</span> <span class="n">x2</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">/</span><span class="n">samples</span> <span class="o">-</span> <span class="n">m1</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">@</span> <span class="n">m2</span><span class="p">[</span><span class="kc">None</span><span class="p">,:]</span>
 
 <span class="k">def</span> <span class="nf">sample_block</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_flips</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -608,7 +606,7 @@ Where $\theta_i(s)$ is the argument of the hyperbolic cosine $\theta_i(s) = c_i 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>With <code>sample_block</code> we will be taking one energy sample every $N=10\gg\tau$ steps. However, we could also take the mini-block averages as samples, which can be easily implemented in the code below. Taking the mini-block average is, probably, a better practice, although it is more computationally expensive, provided that it still requires to compute the local energy for each state. Another way to lower the computational cost is by increasing the amount of spins that are flipped to propose new configurations.</p>
-<p>It is all about the trade-off between computational cost and accuracy. For this case, a sample every few steps works just fine. I encourage the reader to try out different block sizes, e.g. $\text{bs}\in[1, 15]$, and test with mini-block averages and different spin flips. Keeping everything else constant, small block sizes should incur into slower and unstable convergence to the minimal energy due to the high correlation between samples. On the other side, excessively large block sizes suffer from the lack of statistics.</p>
+<p>It all boils down to a the trade-off between computational cost and accuracy. For this case, a sample every few steps works just fine. I encourage the reader to try out different block sizes, e.g. $\text{bs}\in[1, 15]$, and test with mini-block averages and different number of spin flips. Keeping everything else constant, small block sizes should incur into slower and unstable convergence to the minimal energy due to the high correlation between samples. On the other side, excessively large block sizes suffer from the lack of statistics.</p>
 <p>When comparing different parameters, remember to set a random seed in order to always start with the same initial condition.</p>
 
 </div>
