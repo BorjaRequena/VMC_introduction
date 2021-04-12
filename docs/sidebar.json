@@ -1,5 +1,5 @@
 {
-  "QMC_introduction": {
+  "VMC_introduction": {
     "Overview": "/",
     "Introduction to variational Monte Carlo with neural network quantum states": "VMC_introduction.html"
   }

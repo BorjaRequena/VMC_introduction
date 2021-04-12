@@ -13,6 +13,6 @@ entries:
       title: Introduction to variational Monte Carlo with neural network quantum states
       url: VMC_introduction.html
     output: web
-    title: QMC_introduction
+    title: VMC_introduction
   output: web
   title: Sidebar

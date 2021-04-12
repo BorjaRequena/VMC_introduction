@@ -6,8 +6,8 @@ index = {}
 
 modules = []
 
-doc_url = "https://BorjaRequena.github.io/QMC_introduction/"
+doc_url = "https://BorjaRequena.github.io/VMC_introduction/"
 
-git_url = "https://github.com/BorjaRequena/QMC_introduction/tree/master/"
+git_url = "https://github.com/BorjaRequena/VMC_introduction/tree/master/"
 
 def custom_doc_links(name): return None
