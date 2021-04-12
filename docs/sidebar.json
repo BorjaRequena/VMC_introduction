@@ -1,6 +1,6 @@
 {
   "QMC_introduction": {
     "Overview": "/",
-    "Introduction to Quantum Monte Carlo methods": "/QMC_introduction"
+    "Introduction to variational Monte Carlo with neural network quantum states": "VMC_introduction.html"
   }
 }

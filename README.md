@@ -1,10 +1,10 @@
-# Introduction to Quantum Monte Carlo 
-> A thorough introduction to quantum variational Monte Carlo from the foundations with code examples.
+# Introduction to variational Monte Carlo 
+> A thorough introduction to variational Monte Carlo from the foundations with code examples.
 
 
-A step-by-step introduction to Monte Carlo methods from the foundations. The tutorial can be [viewed online](https://borjarequena.github.io/QMC_introduction/), with the code examples, or as an [interactive notebook](https://github.com/BorjaRequena/QMC_introduction/blob/master/QMC_introduction.ipynb). The goal is to start from the most basic concepts to implement a state-of-the-art quantum Variational Monte Carlo with the [Restricted Boltzmann Machine ansatz](https://arxiv.org/pdf/1606.02318.pdf). 
+Here you will find a step-by-step introduction to variational Monte Carlo methods from the foundations. This is the notebook version of [my blogpost](https://brequena.com/variational%20monte%20carlo/machine%20learning/neural%20network%20quantum%20states/2021/03/24/VMC-intro.html), where you can find the content in a nicer format and directly run it in [Google Colab](https://colab.research.google.com/). The tutorial is in the notebook [`VMC_introduction.ipynb`](https://github.com/BorjaRequena/QMC_introduction/blob/master/QMC_introduction.ipynb), which can also be [viewed online](https://borjarequena.github.io/QMC_introduction/). The goal is to start from the most basic concepts to implement a state-of-the-art quantum Variational Monte Carlo with the [Restricted Boltzmann Machine ansatz](https://arxiv.org/pdf/1606.02318.pdf). 
 
-This guide introduces the main concepts of Monte Carlo methods. Then, each concept is subsequently brought to the field of quantum phsyics, providing examples with code. Hence, this is not only restricted to quantum Monte Carlo, but it is also of use to anyone starting with classical Monte Carlo methods, as the main concepts are independent of the application field. 
+This guide introduces the main concepts of Monte Carlo methods. Then, each concept is subsequently brought to the field of quantum physics, providing examples with code. Hence, this is not only restricted to quantum Monte Carlo, but it is also of use to anyone starting with classical Monte Carlo methods, as the main concepts are independent of the application field. 
 
 The main covered topics are 
 - Monte Carlo integration

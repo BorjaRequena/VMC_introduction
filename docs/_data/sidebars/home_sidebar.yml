@@ -10,8 +10,8 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: Introduction to Quantum Monte Carlo methods
-      url: /QMC_introduction
+      title: Introduction to variational Monte Carlo with neural network quantum states
+      url: VMC_introduction.html
     output: web
     title: QMC_introduction
   output: web
